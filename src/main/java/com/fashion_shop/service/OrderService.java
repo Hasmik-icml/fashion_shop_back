@@ -1,15 +1,18 @@
 package com.fashion_shop.service;
 
-import com.fashion_shop.model.OrderList;
+import com.fashion_shop.model.Order;
+import com.fashion_shop.model.dto.OrderUpdateReqDto;
 
 import java.util.List;
 
 public interface OrderService {
-    List<OrderList> getAll();
+    List<Order> getAll();
 
-    OrderList create(OrderList order);
+    Order getById(Long id);
 
-    OrderList update(OrderList order, Long id);
+    Order create(Order order);
+
+    Order update(OrderUpdateReqDto order, Long id);
 
     void delete(Long id);
 }

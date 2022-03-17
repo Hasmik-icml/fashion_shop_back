@@ -10,18 +10,22 @@ import javax.persistence.*;
 @ToString
 @Entity
 
-//@Table(name="car")
-public class OrderList {
+@Table(name="user_orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Long date;
 
+    private Integer count;
 //    @JoinColumn(name = "prduct_id_order")
     @OneToOne
     private Product product;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @ManyToOne
+    private User user;
 }
