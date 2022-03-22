@@ -19,18 +19,27 @@ public class ProductController {
     ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
-    @GetMapping("/{anytext}")
-    ResponseEntity<List<Product>> getByAnyText(@PathVariable("anytext") String anytext){
-        return ResponseEntity.ok(productService.getByAnyText(anytext));
+
+    @GetMapping("/{id}")
+    ResponseEntity<Product> getById(@PathVariable("id") long id){
+        return ResponseEntity.ok(productService.getById(id));
     }
+
+//    @GetMapping("/{anytext}")
+//    ResponseEntity<List<Product>> getByAnyText(@PathVariable("anytext") String anytext){
+//        return ResponseEntity.ok(productService.getByAnyText(anytext));
+//    }
+
     @PostMapping
     ResponseEntity<Product> create(@RequestBody Product product){
         return ResponseEntity.ok(productService.create(product));
     }
+
     @PutMapping("/{id}")
     ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody Product product){
         return  ResponseEntity.ok(productService.update(product,id));
     }
+
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable("id") long id){
         productService.delete(id);

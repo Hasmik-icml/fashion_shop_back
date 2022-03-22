@@ -12,7 +12,6 @@ import javax.persistence.Id;
 @ToString
 @Entity
 public class User {
-
     @Id
     private String id;
 }

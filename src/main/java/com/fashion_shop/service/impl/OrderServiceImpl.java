@@ -19,26 +19,50 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    /***
+     *
+     * @return all data from DB, if there is not any data will return empty List.
+     */
     @Override
     public List<Order> getAll() {
         return orderRepository.findAll();
     }
 
+    /***
+     *
+     * @param id with the help of it will find the object from DB.
+     * @return returns founded object or throws @ResponseStatusException(BAD_REQUEST).
+     */
     @Override
     public Order getById(Long id) {
-        return orderRepository.getById(id);
+        return orderRepository.findById(id).orElseThrow(()-> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "product with id:" + id + "  not found in database");
+        });
+
     }
 
+    /***
+     *
+     * @param order the product that would be added in DB
+     * @return new product which has added
+     */
     @Override
     public Order create(Order order) {
         return orderRepository.save(order);
     }
 
+    /***
+     *
+     * @param id is related to order which need to update
+     * @param reqDto is changed data
+     * @returns just updated order
+     */
     @Override
     @Transactional
     public Order update(OrderUpdateReqDto reqDto, Long id) {
         Order dbOrder = orderRepository.findById(id).orElseThrow(()->{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"wrong");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"product with id:" + id + "  not found in database");
         });
         dbOrder.setOrderStatus(reqDto.getOrderStatus());
         dbOrder.setCount(reqDto.getCount());

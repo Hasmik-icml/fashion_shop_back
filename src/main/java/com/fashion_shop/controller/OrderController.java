@@ -29,17 +29,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getById(id));
     }
 
-
-
     @PostMapping
     ResponseEntity<Order> create(@RequestBody Order order){
         return ResponseEntity.ok(orderService.create(order));
     }
 
-
     @PutMapping("/{idOrder}")
     ResponseEntity<Order> update(@PathVariable("idOrder") Long id, @RequestBody OrderUpdateReqDto reqDto){
-    if(!OrderDtoValidator.chekOrderUpdateDto(reqDto)){
+        if(!OrderDtoValidator.chekOrderUpdateDto(reqDto)){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "user data is invalid to update users order"

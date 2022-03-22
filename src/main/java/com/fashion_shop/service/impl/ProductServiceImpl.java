@@ -3,6 +3,7 @@ package com.fashion_shop.service.impl;
 import com.fashion_shop.model.Product;
 import com.fashion_shop.repository.ProductRepository;
 import com.fashion_shop.service.ProductService;
+import com.fashion_shop.validation.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,24 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductRepository productRepository;
 
+    /***
+     *
+     * @return all data from DB, if there is not any data will return empty List.
+     */
     @Override
     public List<Product> getAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Product getById(Long id) {
+        return productRepository.findById(id).orElseThrow(()->{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"product with id:" + id + "  not found in database");
+        });
     }
 
     @Override
@@ -33,11 +46,26 @@ public class ProductServiceImpl implements ProductService {
         return filter;
     }
 
+    /***
+     *
+     * @param product the product that would be added in DB
+     * @return new product which has added
+     */
     @Override
     public Product create(Product product) {
+        if(!ProductValidator.validateCreateProduct(product)){
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"Please enter the correct details");
+        }
         return productRepository.save(product);
     }
 
+
+    /***
+     *
+     * @param id is related to product which need to update
+     * @param product is changed data
+     * @returns just updated product
+     */
     @Override
     @Transactional
     public Product update(Product product, long id) {
