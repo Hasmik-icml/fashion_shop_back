@@ -34,7 +34,6 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Image> img;
 
-
     @Override
     public String toString() {
         return "" +

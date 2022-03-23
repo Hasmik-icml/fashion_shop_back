@@ -19,7 +19,7 @@ public class Order {
     private Long date;
 
     private Integer count;
-//    @JoinColumn(name = "prduct_id_order")
+
     @OneToOne
     private Product product;
 

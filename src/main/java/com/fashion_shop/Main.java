@@ -1,7 +1,10 @@
 package com.fashion_shop;
 
+import com.fashion_shop.model.Product;
+import com.fashion_shop.model.commons.Stock;
+
 public class Main {
-    static int a;
+
     public static void main(String[] args) {
 
     }

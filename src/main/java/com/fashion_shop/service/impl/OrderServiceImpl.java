@@ -21,6 +21,16 @@ public class OrderServiceImpl implements OrderService {
 
     /***
      *
+     * @param order the product that would be added in DB
+     * @return new product which has added
+     */
+    @Override
+    public Order create(Order order) {
+        return orderRepository.save(order);
+    }
+
+    /***
+     *
      * @return all data from DB, if there is not any data will return empty List.
      */
     @Override
@@ -34,23 +44,29 @@ public class OrderServiceImpl implements OrderService {
      * @return returns founded object or throws @ResponseStatusException(BAD_REQUEST).
      */
     @Override
-    public Order getById(Long id) {
-        return orderRepository.findById(id).orElseThrow(()-> {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "product with id:" + id + "  not found in database");
-        });
-
+    public List<Order> getAllById(String id) {
+        return orderRepository.getAllByUserId(id)
+                .orElseThrow(()-> new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "Orders with user_id:" + id + "  not found in database")
+                    );
     }
 
     /***
      *
-     * @param order the product that would be added in DB
-     * @return new product which has added
+     * @param id with the help of it will find the object from DB.
+     * @return returns founded object or throws @ResponseStatusException(BAD_REQUEST).
      */
-    @Override
-    public Order create(Order order) {
-        return orderRepository.save(order);
-    }
+//    @Override
+//    public Order getById(Long id) {
+//        return orderRepository.findById(id).orElseThrow(()-> {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+//                    "product with id:" + id + "  not found in database");
+//        });
+//
+//    }
+
+
 
     /***
      *
@@ -60,14 +76,14 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public Order update(OrderUpdateReqDto reqDto, Long id) {
-        Order dbOrder = orderRepository.findById(id).orElseThrow(()->{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"product with id:" + id + "  not found in database");
-        });
-        dbOrder.setOrderStatus(reqDto.getOrderStatus());
-        dbOrder.setCount(reqDto.getCount());
+    public Order update(OrderUpdateReqDto reqDto, String id) {
+//        Order dbOrder = orderRepository.findById(id).orElseThrow(()->{
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"product with id:" + id + "  not found in database");
+//        });
+//        dbOrder.setOrderStatus(reqDto.getOrderStatus());
+//        dbOrder.setCount(reqDto.getCount());
 
-        return dbOrder;
+        return null;
     }
 
     @Override

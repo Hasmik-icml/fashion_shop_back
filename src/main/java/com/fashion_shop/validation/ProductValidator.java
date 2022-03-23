@@ -15,9 +15,13 @@ public final class ProductValidator {
                         !DescriptionValidator.validateDescription(product.getDescriptions())) {
             return false;
         }
+
         return true;
     }
     public static boolean validateCreateProduct(Product product){
+        System.out.println(product.getStock());
+        System.out.println(product.getDescriptions());
         return validateUpdateProduct(product);
     }
+
 }

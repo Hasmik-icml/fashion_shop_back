@@ -11,12 +11,12 @@ public interface ProductService {
 
     Product getById(Long id);
 
-    List<Product> getByAnyText(String anytext);
-
     Product create(Product product);
 
     Product update(Product product, long id);
 
     void delete(long id);
+
+    List<Product> getByAnyText(String anytext);
 
 }

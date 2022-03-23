@@ -6,9 +6,12 @@ import org.apache.catalina.LifecycleState;
 import java.util.List;
 
 public interface UserService {
+
     User create(User user);
 
     User getById(String id);
+
+    User getByIdForSignUp(String id);
 
     List<User> getAll();
 
