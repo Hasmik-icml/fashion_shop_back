@@ -2,9 +2,12 @@ package com.fashion_shop.controller;
 
 import com.fashion_shop.model.Product;
 import com.fashion_shop.service.ProductService;
+import com.fashion_shop.validation.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -32,11 +35,21 @@ public class ProductController {
 
     @PostMapping
     ResponseEntity<Product> create(@RequestBody Product product){
+        if(!ProductValidator.validateCreateProduct(product)){
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "user data is invalid to create product");
+        }
         return ResponseEntity.ok(productService.create(product));
     }
 
     @PutMapping("/{id}")
     ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody Product product){
+        if (!ProductValidator.validateUpdateProduct(product)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "user data is invalid to update product with id:" + id
+            );
+        }
         return  ResponseEntity.ok(productService.update(product,id));
     }
 

@@ -34,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getById(Long id) {
         return productRepository.findById(id).orElseThrow(()->{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"product with id:" + id + "  not found in database");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "product with id:" + id + "  not found in database");
         });
     }
 
@@ -53,9 +54,6 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product create(Product product) {
-        if(!ProductValidator.validateCreateProduct(product)){
-            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"Please enter the correct details");
-        }
         return productRepository.save(product);
     }
 
@@ -70,12 +68,13 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product update(Product product, long id) {
         Product dbProduct = productRepository.findById(id).orElseThrow(()->{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"wrong");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "product with id:" + id + "  not found in database");
         });
         dbProduct.setName(product.getName());
         dbProduct.setPrice(product.getPrice());
         dbProduct.setStock(product.getStock());
-        dbProduct.setImg(product.getImg());
+        dbProduct.setImg(product.getImg());//???????????
         dbProduct.setCurrency(product.getCurrency());
         dbProduct.setDescriptions(product.getDescriptions());
         return  dbProduct;
