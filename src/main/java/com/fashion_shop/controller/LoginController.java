@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/login")
 public class LoginController {
 
     @Autowired

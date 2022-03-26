@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/v1/order")
 public class OrderController {
 
     @Autowired
