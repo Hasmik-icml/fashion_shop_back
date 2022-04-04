@@ -4,6 +4,7 @@ import com.fashion_shop.model.commons.enums.OrderStatus;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 

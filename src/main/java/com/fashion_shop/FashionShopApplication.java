@@ -1,5 +1,6 @@
 package com.fashion_shop;
 
+import com.fashion_shop.util.FileDatasource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ public class FashionShopApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FashionShopApplication.class, args);
+//        FileDatasource.deleteProductFolderByFolderName("logo.jpg");
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {

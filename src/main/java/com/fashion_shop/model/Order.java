@@ -6,10 +6,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+@Entity
 @Data
 @ToString
-@Entity
-
 @Table(name="user_orders")
 public class Order {
     @Id

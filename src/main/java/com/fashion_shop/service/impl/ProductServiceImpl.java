@@ -74,9 +74,9 @@ public class ProductServiceImpl implements ProductService {
         dbProduct.setName(product.getName());
         dbProduct.setPrice(product.getPrice());
         dbProduct.setStock(product.getStock());
-        dbProduct.setImg(product.getImg());//???????????
+//        dbProduct.setImg(product.getImg());//???????????
         dbProduct.setCurrency(product.getCurrency());
-        dbProduct.setDescriptions(product.getDescriptions());
+        dbProduct.setDescription(product.getDescription());
         return  dbProduct;
     }
 

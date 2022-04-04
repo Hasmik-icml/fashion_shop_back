@@ -1,6 +1,5 @@
 package com.fashion_shop.validation.commons;
 
-import com.fashion_shop.model.commons.Descriptions;
 import com.fashion_shop.model.commons.Stock;
 
 public final class StockValidator {

@@ -1,6 +1,6 @@
 package com.fashion_shop.model;
 
-import com.fashion_shop.model.commons.Descriptions;
+import com.fashion_shop.model.commons.Description;
 import com.fashion_shop.model.commons.Image;
 import com.fashion_shop.model.commons.Stock;
 import com.fashion_shop.model.commons.enums.Currency;
@@ -23,7 +23,7 @@ public class Product {
     private Float price;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Descriptions descriptions;
+    private Description description;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
@@ -40,7 +40,7 @@ public class Product {
                 "" + id +
                 "" + name +
                 "" + price +
-                "" + descriptions +
+                "" + description +
                 "" + currency +
                 "" + stock +
                 "" + img;

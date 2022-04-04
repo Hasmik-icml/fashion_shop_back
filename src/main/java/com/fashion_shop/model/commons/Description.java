@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Data
 @ToString
 @Entity
-public class Descriptions {
+public class Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

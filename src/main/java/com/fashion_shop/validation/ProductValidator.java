@@ -7,12 +7,12 @@ import com.fashion_shop.validation.commons.StockValidator;
 
 public final class ProductValidator {
     public static boolean validateUpdateProduct(Product product) {
-        ImageValidator.checkDefaultImage(product);
+//        ImageValidator.checkDefaultImage(product);
 
         if (product.getName().length() == 0 ||
                 product.getPrice() < 0 ||
                 !StockValidator.validateStock(product.getStock()) ||
-                        !DescriptionValidator.validateDescription(product.getDescriptions())) {
+                        !DescriptionValidator.validateDescription(product.getDescription())) {
             return false;
         }
 
@@ -20,7 +20,7 @@ public final class ProductValidator {
     }
     public static boolean validateCreateProduct(Product product){
         System.out.println(product.getStock());
-        System.out.println(product.getDescriptions());
+        System.out.println(product.getDescription());
         return validateUpdateProduct(product);
     }
 
