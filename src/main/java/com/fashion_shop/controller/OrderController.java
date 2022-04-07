@@ -27,7 +27,7 @@ public class OrderController {
     }
 
     @GetMapping("/user-order")
-    ResponseEntity<List<Order>> getOrdersByUserId(@RequestHeader("user_id") String userId) {
+    ResponseEntity<List<Order>> getOrdersByUserId(@RequestHeader String userId) {
         if (!UserValidator.checkUserAuthorized(userId)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     @GetMapping("/order-status")
-    ResponseEntity<List<Order>> getOrderByStatus(@RequestHeader("user_id") String userId,
+    ResponseEntity<List<Order>> getOrderByStatus(@RequestHeader String userId,
                                                  @RequestHeader("status") OrderStatus orderStatus) {
         if (!UserValidator.checkUserAuthorized(userId)) {
             throw new ResponseStatusException(
@@ -68,8 +68,9 @@ public class OrderController {
 
 
     @PostMapping
-    ResponseEntity<ResponseDto> create(@RequestBody Order order) {
-        if (!OrderValidator.validateOrder(order)) {
+    ResponseEntity<ResponseDto> create(@RequestBody Order order,
+                                       @RequestHeader String userId) {
+        if (!OrderValidator.validateOrder(order, userId)) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Invalid order Structure for accepting Order"
@@ -80,43 +81,16 @@ public class OrderController {
         responseDto.addInfo("OrderId", String.valueOf(created.getId()));
         return ResponseEntity.ok(responseDto);
     }
-//    @PutMapping("/{user_id}/{order_id}")
-//    Order update(@PathVariable("user_id") String userId, @PathVariable("order_id") String orderId, OrderUpdateReqDto reqDto) {
-//        if (!OrderDtoValidator.checkOrderUpdateDto(reqDto)) {
-//            throw new ResponseStatusException(
-//                    HttpStatus.BAD_REQUEST,
-//                    "user data is invalid to update users order"
-//            );
-//        }
-//        if (!UserValidator.checkUserAuthorized(userId)) {
-//            throw new ResponseStatusException(
-//                    HttpStatus.UNAUTHORIZED,
-//                    "user is UNAUTHORIZED, plz AUTHORIZE at first"
-//            );
-//        }
-//        return orderService.update(reqDto, orderId);
-//    }
-
-//    @PutMapping("/{user_id}/{order_id}")
-//    ResponseEntity<Order> update(@PathVariable("user_id") String userId, @PathVariable("order_id") String orderId,  @RequestBody OrderUpdateReqDto reqDto){//???
-//        if(!OrderDtoValidator.chekOrderUpdateDto(reqDto)){
-//            throw new ResponseStatusException(
-//                    HttpStatus.BAD_REQUEST,
-//                    "user data is invalid to update users order"
-//            );
-//        }
-//        if (!UserValidator.checkUserAuthorized(userId)) {
-//            throw new ResponseStatusException(
-//                    HttpStatus.UNAUTHORIZED,
-//                    "user is UNAUTHORIZED, plz AUTHORIZE at first"
-//            );
-//        }
-//        return ResponseEntity.ok(orderService.update(reqDto, orderId));
-//    }
 
     @DeleteMapping("/{idOrder}")
-    ResponseEntity<ResponseDto> delete(@PathVariable("idOrder") Long id) {
-
+    ResponseEntity<ResponseDto> delete(@PathVariable("idOrder") Long id,
+                                       @RequestHeader String userId) {
+        if (!UserValidator.checkUserAuthorized(userId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "user is unauthorized, please sign in first:"
+            );
+        }
         orderService.delete(id);
         ResponseDto responseDto = new ResponseDto("Order deleted.");
         responseDto.addInfo("OrderId", String.valueOf(id));

@@ -2,6 +2,7 @@ package com.fashion_shop.service.impl;
 
 import com.fashion_shop.model.Product;
 import com.fashion_shop.repository.ProductRepository;
+import com.fashion_shop.service.ImageService;
 import com.fashion_shop.service.ProductService;
 import com.fashion_shop.validation.ProductValidator;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
 
     /***
      *

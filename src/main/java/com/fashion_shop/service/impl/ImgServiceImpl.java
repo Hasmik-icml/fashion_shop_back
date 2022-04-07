@@ -6,16 +6,15 @@ import com.fashion_shop.repository.ImageRepository;
 import com.fashion_shop.repository.ProductRepository;
 import com.fashion_shop.service.ImageService;
 import com.fashion_shop.service.ProductService;
+import com.fashion_shop.util.FileConstants;
 import com.fashion_shop.util.FileDatasource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,12 +33,15 @@ import java.util.Objects;
 public class ImgServiceImpl implements ImageService {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private ImageRepository imageRepository;
 
     @Override
     @Transactional
-    public Product saveImagesToFolder(long productId, MultipartFile[] images) {
+    public Product saveImagesToFolder(long productId, MultipartFile[] images, String serverUrl) {
 // get product by id
         Product product = productService.getById(productId);
         List<Image> imagesForDb = new LinkedList<>();
@@ -52,9 +54,9 @@ public class ImgServiceImpl implements ImageService {
 
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
             Path uploadDirectory = Paths.get(productFolder);
-            String imagePath = productFolder + File.separator + fileName;
+            String imgUrl = serverUrl + "/" + generateFolderName(product) + "/" + fileName;
 //            System.out.println("imagePath\t" + imagePath);
-            imagesForDb.add(new Image(imagePath));
+            imagesForDb.add(new Image(imgUrl));
             try (InputStream inputStream = image.getInputStream()) {
                 Path filePath = uploadDirectory.resolve(fileName);
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -77,16 +79,19 @@ public class ImgServiceImpl implements ImageService {
     }
 
     @Override
-    public byte[] readAllByProductId(long productId, long imgId) throws IOException {
+    public byte[] readByFolderNameAndImageName(String folderName, String imageName) throws IOException {
+        //get file
+        File file = new File(
+                new File("").getAbsolutePath() +
+                        File.separator +
+                        FileConstants.DATA_FOLDER_NAME +
+                        File.separator +
+                        folderName +
+                        File.separator +
+                        imageName
+        );
 
-        Image image = null;
-        for (Image item : productService.getById(productId).getImg()) {
-            if (item.getId() == imgId) {
-                image = item;
-                break;
-            }
-        }
-        InputStream inputStream = new FileInputStream(new File(image.getImagePath()));
+        InputStream inputStream = new FileInputStream(file);
         return StreamUtils.copyToByteArray(inputStream);
 
     }
@@ -127,6 +132,11 @@ public class ImgServiceImpl implements ImageService {
         return null;
     }
 
+    @Override
+    public void delete(long id) {
+        new FileDatasource().deleteProductFolderByFolderName(generateFolderName(productRepository.getById(id)));
+
+    }
 
 
     private String generateFolderName(Product product){
