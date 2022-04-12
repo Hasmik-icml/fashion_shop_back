@@ -33,6 +33,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    /***
+     *
+     * @return the product with provided ID
+     */
     @Override
     public Product getById(Long id) {
         return productRepository.findById(id).orElseThrow(()->{
@@ -41,13 +45,19 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
-    @Override
-    public List<Product> getByAnyText(String anytext) {
-      List<Product> filter = getAll().stream().filter((item)->
-                     item.toString().toLowerCase(Locale.ROOT).contains(anytext.toLowerCase(Locale.ROOT)))
-                .collect(Collectors.toList());
-        return filter;
-    }
+//    /***
+//     *
+//     * @param anytext
+//     * @return
+//     */
+//
+//    @Override
+//    public List<Product> getByAnyText(String anytext) {
+//      List<Product> filter = getAll().stream().filter((item)->
+//                     item.toString().toLowerCase(Locale.ROOT).contains(anytext.toLowerCase(Locale.ROOT)))
+//                .collect(Collectors.toList());
+//        return filter;
+//    }
 
     /***
      *
@@ -82,6 +92,11 @@ public class ProductServiceImpl implements ProductService {
         return  dbProduct;
     }
 
+    /***
+     *
+     * @param id find the product with provided id and deletes both the image folder
+     *           corresponding to the product and the product
+     */
     @Override
     public void delete(long id) {
         productRepository.deleteById(id);

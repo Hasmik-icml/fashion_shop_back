@@ -17,6 +17,6 @@ public interface ProductService {
 
     void delete(long id);
 
-    List<Product> getByAnyText(String anytext);
+//    List<Product> getByAnyText(String anytext);
 
 }

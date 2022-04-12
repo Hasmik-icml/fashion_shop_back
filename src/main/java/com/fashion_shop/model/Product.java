@@ -4,6 +4,7 @@ import com.fashion_shop.model.commons.Description;
 import com.fashion_shop.model.commons.Image;
 import com.fashion_shop.model.commons.Stock;
 import com.fashion_shop.model.commons.enums.Currency;
+import com.fashion_shop.model.commons.enums.OrderStatus;
 import lombok.Data;
 import lombok.ToString;
 
@@ -34,6 +35,27 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Image> img;
 
+    public void updateStock(OrderStatus oldStatus, OrderStatus newStatus, int count) {
+
+        switch (oldStatus) {
+            case UNPAID:
+                if (newStatus == OrderStatus.PAID) {
+                    Stock stock = this.getStock();
+                    stock.setCount(stock.getCount() - count);
+                }
+                break;
+            case PAID:
+            case PENDING:
+            case SENT:
+            case DONE:
+
+                break;
+        }
+
+        if (stock.getCount() == 0) {
+            stock.setIsAvailable(false);
+        }
+    }
     @Override
     public String toString() {
         return "" +

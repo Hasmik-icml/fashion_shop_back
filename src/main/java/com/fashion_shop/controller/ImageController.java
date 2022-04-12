@@ -1,10 +1,10 @@
 package com.fashion_shop.controller;
 
+import com.fashion_shop.model.Product;
 import com.fashion_shop.model.commons.Image;
 import com.fashion_shop.model.dto.ResponseDto;
 import com.fashion_shop.service.ImageService;
 import com.fashion_shop.service.ProductService;
-import com.fashion_shop.validation.ProductValidator;
 import com.fashion_shop.validation.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,48 +28,63 @@ public class ImageController {
     @Autowired
     private ProductService productService;
 
+    /***
+     *
+     * @param productId property is used to determine for what product will be added @param productId
+     * @param multipartFile property is used  to catch uploaded images from front-end
+     * @param userId property is used to determine if the user has authorisation to  make changes in DB
+     * @return responseDto to inform front-end that process has been done successfully or failed
+     */
     @PostMapping("/add/{product_id}")
-    void addImage(@PathVariable("product_id") long productId,
+    ResponseEntity<ResponseDto> addImage(@PathVariable("product_id") long productId,
                   @RequestParam("image") MultipartFile[] multipartFile,
                   @RequestHeader String userId) {
-        if (!UserValidator.checkUserAuthorized(userId)) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "user is unauthorized, please sign in first:"
-            );
-        }
+        UserValidator.checkUserAuthorized(userId, HttpStatus.UNAUTHORIZED, "user is UNAUTHORIZED, plz SignUp at first");
         String serverUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
         String requestMapping = this.getClass().getAnnotation(RequestMapping.class).value()[0];
         String imageMappingPath = serverUrl+ "/" +requestMapping + IMAGE_URL_MAPPING_POST_FIX;
-        imageService.saveImagesToFolder(productId, multipartFile, imageMappingPath );
+        Product created = imageService.saveImagesToFolder(productId, multipartFile, imageMappingPath);
+        ResponseDto responseDto = new ResponseDto("Image created.");
+        responseDto.addInfo("productId", String.valueOf(productId));
+        return ResponseEntity.ok(responseDto);
     }
 
+    /***
+     *
+     * @param folderName property is used to get the image with predefined folder
+     * @param imageName property is used to get the image with specific name
+     * @return byte[] value is file information which will be send to front-end
+     * @throws IOException can be thrown if something goes wrong with @param in File System
+     */
     @GetMapping(value = "/get/{folder_name}/{img_name}")
     ResponseEntity<byte[]> getImagesByProductId(@PathVariable("folder_name") String folderName,
                                                 @PathVariable("img_name") String imageName) throws IOException {
-
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(imageService.readByFolderNameAndImageName(folderName, imageName));
     }
 
+    /***
+     *
+     * @param productId property is used to determine for what product will be updated @param  productId
+     * @param images property is used to get the image file that will be uploaded to update the current image
+     * @param userId property is used to determine if the user has authorisation to make changes in database
+     * @return responseDto to inform front-end that process has been done successfully/ failed
+     */
     @PutMapping("/update/{product_id}")
     ResponseEntity<ResponseDto> update(@PathVariable("product_id") long productId,
                                        @RequestParam("image") MultipartFile[] images,
                                        @RequestHeader String userId){
-        if (!UserValidator.checkUserAuthorized(userId)) {
-            throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED,
-                    "user is unauthorized, please sign in first:"
-            );
-        }
-        Image updated = imageService.update(productId, images);
+        UserValidator.checkUserAuthorized(userId, HttpStatus.UNAUTHORIZED, "user is UNAUTHORIZED, plz SignUp at first");
+        String serverUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+        String requestMapping = this.getClass().getAnnotation(RequestMapping.class).value()[0];
+        String imageMappingPath = serverUrl+ "/" +requestMapping + IMAGE_URL_MAPPING_POST_FIX;
+        Image updated = imageService.update(productId, images, imageMappingPath);
         System.out.println(updated);
         ResponseDto responseDto = new ResponseDto("Image updated.");
         responseDto.addInfo("productId", String.valueOf(productId));
         return ResponseEntity.ok(responseDto);
-
     }
 
 }

@@ -36,28 +36,32 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User getById(String id) {
         return userRepository.findById(id).orElseThrow(()->{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "user with id:" + id + "not founded");
         });
 
     }
 
-    @Override
-    public User getByIdForSignUp(String id) {
-        return userRepository.getById(id);
-    }
-
-    /***
-     *
-     * @return returns founded users list
-     */
-    @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public void delete(String id) {
-        userRepository.deleteById(id);
-    }
+//    /***
+//     *
+//     * @return the user with
+//     */
+//    @Override
+//    public User getByIdForSignUp(String id) {
+//        return userRepository.getById(id);
+//    }
+//
+//    /***
+//     *
+//     * @return returns founded users list
+//     */
+//    @Override
+//    public List<User> getAll() {
+//        return userRepository.findAll();
+//    }
+//
+//    @Override
+//    public void delete(String id) {
+//        userRepository.deleteById(id);
+//    }
 }

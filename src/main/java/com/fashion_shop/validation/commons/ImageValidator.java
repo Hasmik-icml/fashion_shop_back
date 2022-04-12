@@ -7,7 +7,6 @@ import com.fashion_shop.validation.ValidationConstants;
 import java.util.LinkedList;
 
 public final class ImageValidator {
-//    ?????
     public static void checkDefaultImage(Product product){
         if (product.getImg() == null){
             product.setImg(new LinkedList<>());

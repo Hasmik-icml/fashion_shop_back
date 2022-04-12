@@ -11,10 +11,10 @@ public interface UserService {
 
     User getById(String id);
 
-    User getByIdForSignUp(String id);
+//    User getByIdForSignUp(String id);
 
-    List<User> getAll();
+//    List<User> getAll();
 
-    void delete(String id);
+//    void delete(String id);
 
 }
