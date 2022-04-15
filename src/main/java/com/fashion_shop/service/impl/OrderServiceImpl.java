@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order create(Order order) {
-        order.setOrderStatus(OrderStatus.UNPAID);
+        order.setOrderStatus(OrderStatus.PENDING);
         return orderRepository.save(order);
     }
 
