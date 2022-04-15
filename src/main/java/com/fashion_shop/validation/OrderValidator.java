@@ -18,7 +18,6 @@ public final class OrderValidator {
    }
     public static void validateOrderChangeStatus(Order order, OrderStatus newStatus, HttpStatus httpStatus, String message) {
         Stock stock = order.getProduct().getStock();
-
         if (newStatus == OrderStatus.UNPAID) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Illegal argument passed for order to change status");
         }

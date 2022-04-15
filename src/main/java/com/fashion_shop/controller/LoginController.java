@@ -1,5 +1,4 @@
 package com.fashion_shop.controller;
-
 import com.fashion_shop.model.User;
 import com.fashion_shop.model.dto.ResponseDto;
 import com.fashion_shop.service.UserService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/login")

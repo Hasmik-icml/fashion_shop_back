@@ -3,7 +3,6 @@ package com.fashion_shop.validation.commons;
 import com.fashion_shop.model.Product;
 import com.fashion_shop.model.commons.Image;
 import com.fashion_shop.validation.ValidationConstants;
-
 import java.util.LinkedList;
 
 public final class ImageValidator {

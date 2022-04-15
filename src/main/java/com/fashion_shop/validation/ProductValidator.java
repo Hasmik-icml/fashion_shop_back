@@ -2,7 +2,6 @@ package com.fashion_shop.validation;
 
 import com.fashion_shop.model.Product;
 import com.fashion_shop.validation.commons.DescriptionValidator;
-import com.fashion_shop.validation.commons.ImageValidator;
 import com.fashion_shop.validation.commons.StockValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

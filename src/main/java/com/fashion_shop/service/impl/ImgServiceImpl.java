@@ -36,6 +36,7 @@ public class ImgServiceImpl implements ImageService {
 
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private ImageRepository imageRepository;
 
@@ -55,10 +56,8 @@ public class ImgServiceImpl implements ImageService {
 // create directory
         FileDatasource fileDatasource = new FileDatasource();
         String productFolder = fileDatasource.createProductFolder(generateFolderName(product));
-
 // iterate for any image
         for (MultipartFile image : images) {
-
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
             Path uploadDirectory = Paths.get(productFolder);
             String imgUrl = serverUrl + "/" + generateFolderName(product) + "/" + fileName;
@@ -75,13 +74,11 @@ public class ImgServiceImpl implements ImageService {
                 }
             }
         }
-
         if (product.getImg() == null){
             product.setImg(imagesForDb);
         }else {
             product.getImg().addAll(imagesForDb);
         }
-
         return product;
     }
 
@@ -107,7 +104,6 @@ public class ImgServiceImpl implements ImageService {
         );
         InputStream inputStream = new FileInputStream(file);
         return StreamUtils.copyToByteArray(inputStream);
-
     }
 
     /***
@@ -162,9 +158,7 @@ public class ImgServiceImpl implements ImageService {
     @Override
     public void delete(long id) {
         new FileDatasource().deleteProductFolderByFolderName(generateFolderName(productRepository.getById(id)));
-
     }
-
 
     /***
      *

@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 
 @Component
 public final class UserValidator {
-
     private static UserService userService;
 
     @Autowired
@@ -30,7 +29,6 @@ public final class UserValidator {
         }catch (ResponseStatusException statusException){
             throw new ResponseStatusException(status,message);
         }
-
     }
 
     public static void checkUserSignUp(User user, HttpStatus status, String message) {
@@ -39,7 +37,6 @@ public final class UserValidator {
                 user.getPicture() == null || user.getPicture().length() == 0 ||
                 user.getId() == null || user.getId().length() == 0) {
             throw new ResponseStatusException(status, message);
-
         }
 
     }

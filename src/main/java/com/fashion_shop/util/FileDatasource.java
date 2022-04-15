@@ -2,7 +2,6 @@ package com.fashion_shop.util;
 
 import com.fashion_shop.model.Product;
 import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -11,14 +10,13 @@ public class FileDatasource {
 
     public FileDatasource() {
         createDataFolder();
-
     }
 
-
     private void createDataFolder() {
-
-        dataFolder = new File(new File("").getAbsolutePath() + File.separator + FileConstants.DATA_FOLDER_NAME);
-
+        dataFolder = new File(new File("")
+                .getAbsolutePath() +
+                File.separator +
+                FileConstants.DATA_FOLDER_NAME);
         if (!dataFolder.exists()) {
             dataFolder.mkdir();
         } else if (dataFolder.exists() && !dataFolder.isDirectory()) {

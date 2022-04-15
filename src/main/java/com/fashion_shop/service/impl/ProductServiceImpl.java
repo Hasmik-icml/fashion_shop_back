@@ -2,9 +2,7 @@ package com.fashion_shop.service.impl;
 
 import com.fashion_shop.model.Product;
 import com.fashion_shop.repository.ProductRepository;
-import com.fashion_shop.service.ImageService;
 import com.fashion_shop.service.ProductService;
-import com.fashion_shop.validation.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,17 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductRepository productRepository;
-
 
     /***
      *
@@ -30,7 +26,15 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> getAll() {
-        return productRepository.findAll();
+        List<Product> all = productRepository.findAll();
+        Collections.reverse(all);
+//        Collections.sort(all, new Comparator<Product>() {
+//            @Override
+//            public int compare(Product o1, Product o2) {
+////                return o2.getDate() - o1.getDate();
+//            }
+//        });
+        return all;
     }
 
     /***
@@ -45,20 +49,6 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
-//    /***
-//     *
-//     * @param anytext
-//     * @return
-//     */
-//
-//    @Override
-//    public List<Product> getByAnyText(String anytext) {
-//      List<Product> filter = getAll().stream().filter((item)->
-//                     item.toString().toLowerCase(Locale.ROOT).contains(anytext.toLowerCase(Locale.ROOT)))
-//                .collect(Collectors.toList());
-//        return filter;
-//    }
-
     /***
      *
      * @param product the product that would be added in DB
@@ -68,7 +58,6 @@ public class ProductServiceImpl implements ProductService {
     public Product create(Product product) {
         return productRepository.save(product);
     }
-
 
     /***
      *
