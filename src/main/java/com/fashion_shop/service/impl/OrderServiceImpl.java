@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<Order> getOrderByStatus(String userId, OrderStatus orderStatus) {
-        return getAllById(userId).stream()
+        return getAll().stream()
                 .filter(item -> item.getOrderStatus() == orderStatus)
                 .collect(Collectors.toList());
     }
