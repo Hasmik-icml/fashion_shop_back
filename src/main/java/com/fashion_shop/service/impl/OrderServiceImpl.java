@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.comparator.ComparableComparator;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,9 +33,15 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return all data from DB, if there is not any data will return empty List.
      */
-    @Override
     public List<Order> getAll() {
-        return orderRepository.findAll();
+        List<Order> all = orderRepository.findAll();
+        Collections.sort(all, new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return (int) (o2.getDate()- o1.getDate());
+            }
+        });
+        return all;
     }
 
     @Override
