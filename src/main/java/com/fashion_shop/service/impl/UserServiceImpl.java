@@ -27,6 +27,7 @@ public class UserServiceImpl  implements UserService {
         return userRepository.save(user);
     }
 
+
     /***
      *
      * @param id from client to find user
@@ -39,6 +40,16 @@ public class UserServiceImpl  implements UserService {
                     "user with id:" + id + "not founded");
         });
 
+    }
+
+    @Override
+    public boolean isExists(String id) {
+        return userRepository.findById(id).isPresent();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
 //    /***

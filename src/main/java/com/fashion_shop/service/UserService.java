@@ -9,4 +9,8 @@ public interface UserService {
     User create(User user);
 
     User getById(String id);
+
+    boolean isExists(String id);
+
+    List<User> getAll();
 }
